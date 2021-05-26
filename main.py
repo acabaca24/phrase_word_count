@@ -8,7 +8,7 @@ def prep_file(fileName):
 	f = re.sub(r"\"", '\\\"', f)
 	f = re.sub(r"\n", '\\n', f)
 	f = re.sub(r"\d\d\/\d\d\/\d\d, \d\d:\d\d - ",'', f)
-	phrase_count_lower(f)
+	return f
 
 def phrase_count_lower(str):
     counts = dict()
@@ -47,11 +47,44 @@ def word_count_lower(str):
 
     print_dic({k: v for k, v in sorted(counts.items(), key=lambda item: item[1])})
 
+def word_count(str):
+
+    counts = dict()
+    words = str.split()
+
+    for word in words:
+        if word in counts:
+            counts[word] += 1
+        else:
+            counts[word] = 1
+
+    print_dic({k: v for k, v in sorted(counts.items(), key=lambda item: item[1])})
+
 def print_dic(dic):
     for key, value in dic.items():
         print(key)
         print(value)
 
+
 file_name = input('Insert the file name of the wpp convo: ')
 
-prep_file(file_name)
+file_read = prep_file(file_name)
+
+print('file load successful \\o/')
+print('What do you want to count:')
+print('1. Words(case sensitive)')
+print('2. Words(not case sensitive)')
+print('3. Phrases(case sensitive)')
+print('4. Phrases(case insensitive)')
+
+i = int(input())
+if(i == 1):
+    word_count(file_read)
+elif(i == 2):
+    word_count_lower(file_read)
+elif(i == 3):
+    phrase_count(file_read)
+elif(i == 4):
+    phrase_count_lower(file_read)
+else:
+    print('Option not valid')
